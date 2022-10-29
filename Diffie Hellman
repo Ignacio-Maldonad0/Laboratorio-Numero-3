@@ -1,0 +1,70 @@
+import random
+
+def primesInRange(x, y):
+    prime_list = []
+
+    for n in range(x, y):
+        isPrime = True
+
+        for num in range(2, n):
+            if n % num == 0:
+                isPrime = False
+
+        if isPrime:
+            prime_list.append(n)
+            
+    return prime_list
+
+primos = primesInRange(0, 10000)
+primoalazar = random.choice (primos)
+
+g = primoalazar
+p = random.randint(1000, 10000)
+print ("'P' tendra el valor de: ",p," y 'G' tendra el valor de: ",g,"\n")
+
+a = int(input("Para A: Ingrese su clave secreta privada (Recuerde que debe ser menor a 'P' y mayor que 0 = "))
+
+if a > 0 and a < p:
+    print("El valor de a cumple con los requisitos")
+else:
+    print("El valor de a no cumple con los requisitos")
+    
+A = ((g**a)% p)
+
+file2 = open ("Envio de resultado de 'A'.txt","w")
+file2.write(str(A))
+file2.close()
+
+mensaje = input("(Se Asume que 'A' quiere mandarle un mensaje a 'B') Ingrese su mensaje: ")
+
+file2 = open ("Mensaje.txt","w")
+file2.write(mensaje)
+file2.close()
+
+
+print("\n"*20)
+
+
+b = int(input("Para B: Ingrese su clave secreta privada (Recuerde que debe ser menor a 'P' y mayor que 0 = "))
+
+if b > 0 and b < p:
+    print("El valor de b cumple con los requisitos")
+else:
+    print("El valor de b no cumple con los requisitos")
+
+B = ((g**b)% p)
+
+file2 = open ("Envio de resultado de 'B'.txt","w")
+file2.write(str(B))
+file2.close()
+
+
+# para sacar mensaje
+s1 = ((B**a)% p)
+
+s2 = ((A**b)% p)
+
+
+file1 = open ("ClavePublica.txt","w")
+file1.write(str(s1))
+file1.close()
