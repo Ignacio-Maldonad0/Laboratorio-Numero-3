@@ -1,0 +1,38 @@
+import sys
+import os
+import binascii
+from Cryptodome.Cipher import DES
+
+archivo1 = open("Mensaje.txt", mode="r")
+MensajeE = archivo1.read()
+archivo = open("ClavePublica.txt", mode="r")
+claveS = archivo.read()
+clave = int(input("Ingrese clave Publica: "))
+
+
+key = b'03052001'	
+iv = b'03052001'	
+
+cipher1 = DES.new(key, DES.MODE_CFB, iv)
+data = MensajeE.encode()
+msg = cipher1.encrypt(data)
+cipher2 = DES.new(key, DES.MODE_CFB, iv)
+desencriptar = (cipher2.decrypt(msg).decode())
+
+file2 = open ("MensajeEntrada.txt","w")
+file2.write(str(msg))
+file2.close()
+
+
+file1 = open ("MensajeRecibido.txt","w")
+file1.write(str(desencriptar))
+file1.close()
+
+
+if str(clave) == claveS:
+    print("Clave Correcta, Su mensaje cifrado se encuentra en el archivo MensajeEntrada.txt")
+    print("Se asume que B descifra el mensaje y este queda en MensajeRecibido.txt")
+
+
+else:
+    sys.exit("Clave Incorrecta")
